@@ -15,9 +15,6 @@ inputs:
     description: "Git forge/backend. Valid values: 'github', 'gitea'"
     default: "gitea"
     required: false
-  forge_url:
-    description: "Git forge URL with protocol ex: https://example.com"
-    required: false
   backend:
     description: "Supported for backward compatibility. Use 'forge' instead."
     default: "github"
@@ -143,7 +140,7 @@ runs:
             release_pr_stderr=$(mktemp)
             if ! release_pr_output=$(release-plz release-pr\
                 --git-token "${GITHUB_TOKEN}"\
-                --repo-url "${FORGE_URL}/${GITHUB_REPOSITORY}"\
+                --repo-url "${FORGEJO_SERVER_URL}/${GITHUB_REPOSITORY}"\
                 "${CONFIG_PATH[@]}"\
                 "${ALT_REGISTRY[@]}"\
                 "${MANIFEST_PATH[@]}"\
