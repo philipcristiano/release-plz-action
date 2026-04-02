@@ -140,7 +140,7 @@ runs:
             release_pr_stderr=$(mktemp)
             if ! release_pr_output=$(release-plz release-pr\
                 --git-token "${GITHUB_TOKEN}"\
-                --repo-url "${FORGEJO_SERVER_URL}/${GITHUB_REPOSITORY}"\
+                --repo-url "${FORGEJO_SERVER_URL}/${FORGEJO_REPOSITORY}"\
                 "${CONFIG_PATH[@]}"\
                 "${ALT_REGISTRY[@]}"\
                 "${MANIFEST_PATH[@]}"\
