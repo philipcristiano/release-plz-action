@@ -13,7 +13,7 @@ inputs:
     required: false
   forge:
     description: "Git forge/backend. Valid values: 'github', 'gitea'"
-    default: "github"
+    default: "gitea"
     required: false
   backend:
     description: "Supported for backward compatibility. Use 'forge' instead."
@@ -26,10 +26,6 @@ inputs:
     required: false
   project_manifest:
     description: "Deprecated. Use `manifest_path` instead."
-    required: false
-  version:
-    description: "Release-plz version to use. (Default: `0.3.157`)."
-    default: "0.3.157"
     required: false
   token:
     description: "Token used to publish to the cargo registry"
@@ -69,27 +65,7 @@ branding:
 runs:
   using: "composite"
   steps:
-    # Install cargo-semver-checks with install-action instead of cargo-binstall
-    # to avoid checking crates-io
-    - name: Install cargo-semver-checks
-      uses: taiki-e/install-action@d858f8113943481093e02986a7586a4819a3bfd6 # v2.71.2
-      with:
-        tool: cargo-semver-checks@0.46
-    - name: Install cargo-binstall
-      uses: cargo-bins/cargo-binstall@0b24824336e2b3800b0f89d9e08b2c08bfa3dcdd # v1.17.9
-      env:
-        BINSTALL_VERSION: 1.17.8
-    # Install release-plz using cargo-binstall instead of install-action because we
-    # don't want to wait the 3 hour install-action release cadence before releasing a new
-    # version of this action.
-    - name: Install release-plz
-      shell: bash
-      run: |
-        cargo-binstall \
-            release-plz@${{ inputs.version }}\
-            --force\
-            --strategies=crate-meta-data,compile\
-            --no-confirm
+
     - name: Configure git user from GitHub token
       uses: release-plz/git-config@59144859caf016f8b817a2ac9b051578729173c4
     - name: Run release-plz
